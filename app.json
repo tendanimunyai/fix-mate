@@ -1,0 +1,1 @@
+{"expo":{"name":"FixMate","slug":"fixmate","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","splash":{"backgroundColor":"#F8FAFC"},"android":{"package":"com.fixmate.app"},"ios":{"bundleIdentifier":"com.fixmate.app"},"web":{"bundler":"metro"}}}
