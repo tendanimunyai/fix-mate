@@ -15,6 +15,7 @@ FixMate is an offline-first Expo/React Native marketplace for finding trusted lo
 - Provider approval workflow and administrator marketplace console
 - Booking moderation, provider suspension, and review activity visibility
 - Persistent profile, messaging, review and provider-status state
+- Local MVP authentication with persisted sessions and role-specific demo accounts
 
 ## Architecture
 
@@ -37,3 +38,12 @@ npm start
 ```
 
 The current build is intentionally local-first. The next production seam is replacing `src/services/storage.ts` with authenticated Firestore repositories and adding provider onboarding, payments, push notifications, and location services.
+
+### Demo accounts
+
+All demo accounts use the password `fixmate123`:
+
+- Customer: `customer@fixmate.app`
+- Provider: `provider@fixmate.app`
+- Administrator: `admin@fixmate.app`
+- System admin: `system@fixmate.app`

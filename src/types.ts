@@ -1,10 +1,13 @@
 export type Role = 'customer' | 'provider' | 'administrator' | 'system-admin';
 export type RequestStatus = 'Pending' | 'Accepted' | 'In progress' | 'Completed' | 'Cancelled';
 export type Service = { id:string; name:string; icon:string; color:string; description:string };
-export type Provider = { id:string; name:string; trade:string; rating:number; reviews:number; distance:string; price:string; avatar:string; verified:boolean; bio:string };
+export type Provider = { id:string; name:string; trade:string; rating:number; reviews:number; distance:string; price:string; avatar:string; verified:boolean; bio:string; coordinates?:Coordinates };
+export type Coordinates = { latitude:number; longitude:number };
 export type Request = { id:string; service:string; provider:string; date:string; time:string; address:string; status:RequestStatus; price:string; customer?:string; notes?:string };
 export type Message = { id:string; providerId:string; provider:string; avatar:string; text:string; timestamp:string; unread:boolean };
 export type Review = { id:string; requestId:string; provider:string; rating:number; comment:string; createdAt:string };
-export type UserProfile = { name:string; email:string; phone:string; address:string; notifications:boolean; role:Role };
+export type UserProfile = { name:string; email:string; phone:string; address:string; notifications:boolean; role:Role; coordinates?:Coordinates };
 export type ProviderAccountStatus = 'pending' | 'approved' | 'suspended';
 export type ProviderAvailability = Record<string,boolean>;
+export type AuthSession = { email:string; role:Role };
+export type Complaint = { id:string; requestId:string; customer:string; subject:string; details:string; status:'Open'|'Resolved'; createdAt:string };
