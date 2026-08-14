@@ -13,4 +13,4 @@ export const providers:Provider[]=[
  {id:'p3',name:'Lerato Clean Co.',trade:'Home cleaning',rating:4.7,reviews:74,distance:'3.1 km away',price:'From R280',avatar:'LC',verified:true,bio:'Friendly, detail-focused cleaning for busy households.',coordinates:{latitude:-33.9258,longitude:18.4174}},
  {id:'p4',name:'Cape Garden Care',trade:'Garden maintenance',rating:4.9,reviews:52,distance:'4.6 km away',price:'From R300',avatar:'CG',verified:false,bio:'Keep your outdoor space beautiful all year round.',coordinates:{latitude:-33.9372,longitude:18.4768}}
 ];
-export const initialRequests:Request[]=[{id:'r1',service:'Plumbing',provider:'Thabo Mokoena',date:'Today',time:'14:00 - 15:00',address:'12 Long Street, Cape Town',status:'Accepted',price:'R450'}];
+export const initialRequests:Request[]=[{id:'r1',service:'Plumbing',provider:'Thabo Mokoena',providerId:'p1',customer:'Alex Morgan',customerId:'customer@fixmate.app',date:'Today',time:'14:00 - 15:00',address:'12 Long Street, Cape Town',status:'Accepted',price:'R450',createdAt:'2026-08-14T08:00:00.000Z',updatedAt:'2026-08-14T08:10:00.000Z',estimatedArrivalMinutes:18,paymentStatus:'authorised'}];
