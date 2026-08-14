@@ -157,5 +157,6 @@ If a Firebase user signs in without a profile document, the app creates a custom
 - [User roles and login](docs/USER_ROLES_AND_LOGIN.md)
 - [Booking, quote, tracking and completion flow](docs/BOOKING_FLOW.md)
 - [Data model](docs/DATA_MODEL.md)
+- [Expo deployment](docs/DEPLOYMENT.md)
 - [Brand research and rebrand note](docs/BRAND_RESEARCH.md)
 - [Outstanding production work](docs/PRODUCTION_READINESS.md)

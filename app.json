@@ -21,13 +21,23 @@
     ],
     "android": {
       "package": "com.promiseedge.fixmate.app",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "ios": {
       "bundleIdentifier": "com.promiseedge.fixmate.app"
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "df08aff9-2123-4c57-87fc-43cc7af628b0"
+      }
+    },
+    "owner": "invoice-gen-account"
   }
 }
