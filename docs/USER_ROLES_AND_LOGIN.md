@@ -40,6 +40,10 @@ EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID
 
 Android currently uses the debug OAuth client generated from the debug keystore SHA-1. Release builds need their own SHA-1/SHA-256 registered in Firebase.
 
+## Password reset
+
+The login screen includes `Forgot password?`, which sends a Firebase password reset email to the entered email address.
+
 ## Role behavior
 
 ### Customer
@@ -110,3 +114,5 @@ The current seeded provider id is the email address:
 ```text
 provider@fixmate.app
 ```
+
+Users cannot change their own role from the app. Role changes must be done through an admin/system-admin controlled process.

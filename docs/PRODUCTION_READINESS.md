@@ -1,14 +1,16 @@
 # Outstanding production work
 
-This file tracks the main gaps before FixMate should be treated as production-ready.
+This file tracks the main gaps before One-day local services should be treated as production-ready.
 
 ## Authentication and accounts
 
 - Replace temporary shared development passwords.
-- Add password reset and account creation screens.
+- Password reset is available from the login screen through Firebase Auth.
+- Add account creation screens or a controlled invite/onboarding flow.
 - Add email verification policy.
-- Move role changes to an admin-only backend flow.
+- Role self-promotion has been removed from the app UI/context and blocked in Firestore self-profile updates. Next step: move all role changes to a backend/admin workflow with audit logs.
 - Register release OAuth/SHA credentials for Google sign-in.
+- Rebrand is applied in code/docs as `One-day local services`. Before public launch, complete formal trademark/domain/app-store clearance because the name is descriptive.
 
 ## Firestore security
 
@@ -19,7 +21,7 @@ This file tracks the main gaps before FixMate should be treated as production-re
 
 ## Storage and photos
 
-- Initialize Firebase Storage in the Console.
+- Initialize Firebase Storage in the Console. CLI deployment is currently blocked until someone clicks `Get Started` in Firebase Storage.
 - Wire real image picker/camera uploads.
 - Store Firebase Storage download URLs instead of filename placeholders.
 - Apply provider/customer ownership checks for upload paths.

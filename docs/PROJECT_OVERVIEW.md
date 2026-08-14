@@ -1,11 +1,12 @@
-# FixMate project overview
+# One-day local services project overview
 
-FixMate is a Firebase-backed Expo/React Native marketplace for local service jobs. Customers request quotes, providers review the job details and send a quote, customers accept or decline, and the job moves through arrival, start, completion proof, payment status, review, messaging and support flows.
+One-day local services is a Firebase-backed Expo/React Native marketplace for local service jobs. Customers request quotes, providers review the job details and send a quote, customers accept or decline, and the job moves through arrival, start, completion proof, payment status, review, messaging and support flows.
 
 ## Current platform
 
 - App framework: Expo / React Native
 - Package name: `com.promiseedge.fixmate.app`
+- Brand status: rebranded from `FixMate` to `One-day local services`; formal trademark/domain/app-store clearance is still required before public launch
 - Firebase project: `promiseedge-fixmate`
 - Authentication: Firebase Auth Email/Password and Google sign-in
 - Database: Cloud Firestore

@@ -73,8 +73,12 @@ service cloud.firestore {
     }
 
     match /profiles/{profileId} {
-      allow read, update: if isAdmin() || (signedIn() && profileId == request.auth.uid);
-      allow create: if signedIn() && profileId == request.auth.uid;
+      allow read: if isAdmin() || (signedIn() && profileId == request.auth.uid);
+      allow create: if signedIn() && profileId == request.auth.uid && request.resource.data.role == 'customer';
+      allow update: if isAdmin() || (signedIn() && profileId == request.auth.uid
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.id == resource.data.id);
       allow delete: if isAdmin();
     }
 

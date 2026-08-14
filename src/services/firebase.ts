@@ -1,5 +1,5 @@
 import {FirebaseApp,getApp,getApps,initializeApp} from 'firebase/app';
-import {Auth,GoogleAuthProvider,User,onAuthStateChanged,UserCredential,getAuth,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
+import {Auth,GoogleAuthProvider,User,onAuthStateChanged,UserCredential,getAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
 import {Firestore,collection,deleteDoc,doc,getDoc,getDocs,getFirestore,serverTimestamp,setDoc} from 'firebase/firestore';
 import {FirebaseStorage,getDownloadURL,getStorage,ref,uploadBytes} from 'firebase/storage';
 import {AppAlert,Complaint,Message,Provider,ProviderAccountStatus,ProviderAvailability,Request,Review,Service,UserProfile} from '../types';
@@ -77,6 +77,10 @@ export async function firebaseLoginWithGoogleIdToken(idToken:string):Promise<Use
 
 export async function firebaseLogout():Promise<void>{
  return signOut(requireAuth());
+}
+
+export async function firebaseSendPasswordReset(email:string):Promise<void>{
+ return sendPasswordResetEmail(requireAuth(),email);
 }
 
 export function onFirebaseAuthChanged(callback:(user:User|null)=>void):()=>void{

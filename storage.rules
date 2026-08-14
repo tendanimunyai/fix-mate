@@ -6,8 +6,16 @@ service firebase.storage {
       return request.auth != null;
     }
 
+    function hasProfile() {
+      return signedIn() && firestore.exists(/databases/(default)/documents/profiles/$(request.auth.uid));
+    }
+
+    function profileRole() {
+      return hasProfile() ? firestore.get(/databases/(default)/documents/profiles/$(request.auth.uid)).data.role : '';
+    }
+
     function role() {
-      return signedIn() && request.auth.token.role is string ? request.auth.token.role : '';
+      return signedIn() && request.auth.token.role is string ? request.auth.token.role : profileRole();
     }
 
     function isAdmin() {

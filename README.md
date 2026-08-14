@@ -1,6 +1,6 @@
-# FixMate
+# One-day local services
 
-FixMate is an Expo/React Native marketplace for finding trusted local service professionals, backed by Firebase Auth and Firestore.
+One-day local services is an Expo/React Native marketplace for finding trusted local service professionals, backed by Firebase Auth and Firestore.
 
 ## Included MVP flows
 
@@ -49,7 +49,7 @@ firebase deploy --only firestore:rules --project promiseedge-fixmate
 
 ## Development login
 
-Firebase Auth Email/Password and Google sign-in are enabled for the FixMate Firebase project.
+Firebase Auth Email/Password and Google sign-in are enabled for the One-day local services Firebase project.
 
 Development accounts:
 
@@ -157,4 +157,5 @@ If a Firebase user signs in without a profile document, the app creates a custom
 - [User roles and login](docs/USER_ROLES_AND_LOGIN.md)
 - [Booking, quote, tracking and completion flow](docs/BOOKING_FLOW.md)
 - [Data model](docs/DATA_MODEL.md)
+- [Brand research and rebrand note](docs/BRAND_RESEARCH.md)
 - [Outstanding production work](docs/PRODUCTION_READINESS.md)

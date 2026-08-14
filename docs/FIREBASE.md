@@ -95,6 +95,10 @@ system-admin
 
 If a signed-in Firebase user has no profile document, including Google users, the app creates a customer profile automatically.
 
+User-owned profile updates cannot change `role`, `email`, or `id`. Role elevation must be performed by an administrator/system-admin process.
+
+Firestore and Storage rules both resolve roles from either custom claims or `profiles/{uid}.role`.
+
 ## Deployed starter data
 
 Development users exist in Firebase Authentication and corresponding Firestore profiles.
