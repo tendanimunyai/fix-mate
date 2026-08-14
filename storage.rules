@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function role() {
+      return signedIn() && request.auth.token.role is string ? request.auth.token.role : '';
+    }
+
+    function isAdmin() {
+      return role() in ['administrator', 'system-admin'];
+    }
+
+    match /job-photos/{requestId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.resource.size < 10 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
+    }
+
+    match /completion-proof/{requestId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if signedIn() && role() == 'provider' && request.resource.size < 10 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
+    }
+
+    match /admin/{fileName} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

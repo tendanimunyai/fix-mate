@@ -3,6 +3,7 @@
     "name": "FixMate",
     "slug": "fixmate",
     "version": "1.0.0",
+    "scheme": "com.promiseedge.fixmate.app",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "splash": {
@@ -15,10 +16,12 @@
           "locationAlwaysAndWhenInUsePermission": "Allow FixMate to use your location to find nearby service providers."
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-web-browser"
     ],
     "android": {
-      "package": "com.promiseedge.fixmate.app"
+      "package": "com.promiseedge.fixmate.app",
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "bundleIdentifier": "com.promiseedge.fixmate.app"
