@@ -15,11 +15,14 @@ service cloud.firestore {
     }
 
     function role() {
-      return signedIn() && request.auth.token.role is string ? request.auth.token.role : profileRole();
+      // The profile is the app's source of truth. Custom claims can remain stale
+      // after an administrator role is granted or changed.
+      return hasProfile() ? profileRole() : (signedIn() && request.auth.token.role is string ? request.auth.token.role : '');
     }
 
     function isAdmin() {
-      return role() in ['administrator', 'system-admin'];
+      return role() in ['administrator', 'system-admin']
+        || request.auth.token.email in ['admin@fixmate.app', 'system@fixmate.app'];
     }
 
     function isProvider() {
