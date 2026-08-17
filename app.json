@@ -23,6 +23,7 @@
           "photosPermission": "Allow One-day local services to attach job photos for quotes and completion proof."
         }
       ],
+      "expo-notifications",
       "expo-web-browser"
     ],
     "android": {
@@ -30,7 +31,8 @@
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.POST_NOTIFICATIONS"
       ]
     },
     "ios": {

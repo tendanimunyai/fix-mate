@@ -46,6 +46,15 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    match /notificationTokens/{tokenId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+    }
+
     match /complaints/{complaintId} {
       allow read: if isAdmin();
       allow create: if signedIn();

@@ -14,6 +14,18 @@ role
 coordinates?
 ```
 
+## `notificationTokens/{tokenId}`
+
+```text
+id
+userId
+role
+token
+enabled
+platform
+updatedAt
+```
+
 ## `services/{serviceId}`
 
 ```text
@@ -118,6 +130,8 @@ read
 recipientRoles
 type
 requestId
+createdBy
+readBy
 ```
 
 ## `reviews/{reviewId}`
@@ -164,4 +178,3 @@ quoteStatus
 submittedAt
 approvedAt
 ```
-

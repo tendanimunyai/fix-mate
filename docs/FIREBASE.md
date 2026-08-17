@@ -70,6 +70,7 @@ services
 requests
 messages
 alerts
+notificationTokens
 reviews
 complaints
 providerStatuses

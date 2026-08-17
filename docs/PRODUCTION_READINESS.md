@@ -47,7 +47,8 @@ This file tracks the main gaps before One-day local services should be treated a
 
 ## Notifications
 
-- Add push notifications for quotes, messages, arrival, cancellation and completion.
+- Expo push notifications are wired for role-based alerts, backed by Firestore notification tokens and the in-app notification setting.
+- Move Expo push sending from the client to Firebase Cloud Functions before public production launch.
 - Add email/SMS notifications for critical events.
 
 ## Observability

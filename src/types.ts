@@ -20,10 +20,11 @@ export type ServicePricing = {
 };
 export type CancellationReason = 'Changed my mind'|'Found another provider'|'Provider is delayed'|'Provider requested cancellation'|'Emergency'|'Other';
 export type Message = { id:string; providerId:string; provider:string; avatar:string; text:string; timestamp:string; unread:boolean; requestId?:string; senderRole?:Role; senderName?:string; recipientRoles?:Role[]; unreadFor?:Role[] };
-export type AppAlert = { id:string; title:string; text:string; createdAt:string; read:boolean; recipientRoles:Role[]; type?:'message'|'booking'|'quote'|'arrival'|'payment'|'complaint'|'system'; requestId?:string };
+export type AppAlert = { id:string; title:string; text:string; createdAt:string; read:boolean; recipientRoles:Role[]; type?:'message'|'booking'|'quote'|'arrival'|'payment'|'complaint'|'system'; requestId?:string; createdBy?:string; readBy?:string[] };
 export type SystemSettings = { id:string; maintenance:boolean; updatedAt?:string };
 export type Review = { id:string; requestId:string; provider:string; rating:number; comment:string; createdAt:string };
 export type UserProfile = { name:string; email:string; phone:string; address:string; notifications:boolean; role:Role; coordinates?:Coordinates; favourites?:string[]; paymentMethods?:string[] };
+export type NotificationToken = { id:string; userId:string; role:Role; token:string; enabled:boolean; platform:string; updatedAt?:string };
 export type ProviderAccountStatus = 'pending' | 'approved' | 'suspended';
 export type ProviderAvailability = Record<string,boolean>;
 export type AuthSession = { email:string; role:Role };
