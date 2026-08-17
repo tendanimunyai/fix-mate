@@ -88,7 +88,15 @@ export function onFirebaseAuthChanged(callback:(user:User|null)=>void):()=>void{
 }
 
 async function upsert<T extends {id:string}>(collectionName:string,item:T){
- await setDoc(doc(requireFirestore(),collectionName,item.id),{...item,updatedAt:serverTimestamp()},{merge:true});
+ const data=stripUndefined(item) as T;
+ await setDoc(doc(requireFirestore(),collectionName,item.id),{...data,updatedAt:serverTimestamp()},{merge:true});
+}
+
+function stripUndefined(value:unknown):unknown{
+ if(value===undefined)return undefined;
+ if(Array.isArray(value))return value.map(stripUndefined).filter(item=>item!==undefined);
+ if(value&&Object.prototype.toString.call(value)==='[object Object]')return Object.fromEntries(Object.entries(value as Record<string,unknown>).map(([key,item])=>[key,stripUndefined(item)]).filter(([,item])=>item!==undefined));
+ return value;
 }
 
 async function list<T>(collectionName:string):Promise<T[]>{

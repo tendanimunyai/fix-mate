@@ -26,13 +26,9 @@ service cloud.firestore {
       return role() == 'provider';
     }
 
-    function isCustomer() {
-      return role() == 'customer';
-    }
-
     match /requests/{requestId} {
       allow read: if signedIn();
-      allow create: if signedIn() && (isCustomer() || isProvider() || isAdmin());
+      allow create: if signedIn();
       allow update: if signedIn();
       allow delete: if isAdmin();
     }
@@ -78,7 +74,10 @@ service cloud.firestore {
       allow update: if isAdmin() || (signedIn() && profileId == request.auth.uid
         && request.resource.data.role == resource.data.role
         && request.resource.data.email == resource.data.email
-        && request.resource.data.id == resource.data.id);
+        && (
+          request.resource.data.id == resource.data.id
+          || (!resource.data.keys().hasAny(['id']) && request.resource.data.id == profileId)
+        ));
       allow delete: if isAdmin();
     }
 
