@@ -1,5 +1,7 @@
 import {FirebaseApp,getApp,getApps,initializeApp} from 'firebase/app';
-import {Auth,GoogleAuthProvider,User,onAuthStateChanged,UserCredential,getAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform} from 'react-native';
+import {Auth,GoogleAuthProvider,Persistence,User,onAuthStateChanged,UserCredential,getAuth,initializeAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
 import {Firestore,collection,deleteDoc,doc,getDoc,getDocs,getFirestore,onSnapshot,query,serverTimestamp,setDoc,where} from 'firebase/firestore';
 import {FirebaseStorage,getDownloadURL,getStorage,ref,uploadBytes} from 'firebase/storage';
 import {AppAlert,Company,Complaint,Message,NotificationToken,Provider,ProviderAccountStatus,ProviderAvailability,ProviderServiceApplication,Request,Review,Role,Service,SystemSettings,UserProfile} from '../types';
@@ -39,7 +41,24 @@ export const firebaseApp:FirebaseApp|null=isFirebaseConfigured
  ? getApps().length?getApp():initializeApp(firebaseConfig)
  : null;
 
-export const firebaseAuth:Auth|null=firebaseApp?getAuth(firebaseApp):null;
+const asyncStoragePersistence=class{
+ static type='LOCAL';
+ readonly type='LOCAL';
+ async _isAvailable(){try{const key='firebase-auth-storage-test';await AsyncStorage.setItem(key,'1');await AsyncStorage.removeItem(key);return true;}catch{return false;}}
+ async _set(key:string,value:unknown){await AsyncStorage.setItem(key,JSON.stringify(value));}
+ async _get<T>(key:string):Promise<T|null>{const value=await AsyncStorage.getItem(key);return value?JSON.parse(value) as T:null;}
+ async _remove(key:string){await AsyncStorage.removeItem(key);}
+ _addListener(){}
+ _removeListener(){}
+} as unknown as Persistence;
+
+function createFirebaseAuth(app:FirebaseApp):Auth{
+ if(Platform.OS==='web')return getAuth(app);
+ try{return initializeAuth(app,{persistence:asyncStoragePersistence});}
+ catch{return getAuth(app);}
+}
+
+export const firebaseAuth:Auth|null=firebaseApp?createFirebaseAuth(firebaseApp):null;
 export const firestore:Firestore|null=firebaseApp?getFirestore(firebaseApp):null;
 export const firebaseStorage:FirebaseStorage|null=firebaseApp?getStorage(firebaseApp):null;
 

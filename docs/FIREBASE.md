@@ -119,7 +119,7 @@ Seeded Firestore records:
 
 Providers can submit a service application from the provider dashboard, or a system admin can capture the same application from the system admin console.
 
-The application stores the provider identity, company registration/contact details, selected service, service area, experience notes and supporting document URLs in `providerApplications/{applicationId}`. Company details are persisted to `companies/{companyId}`. When an administrator approves the application, the app creates or updates `providers/{providerEmail}`, marks the provider approved, enables availability and links the provider to the company.
+The application stores the provider identity, company registration/contact details, selected service, service area, experience notes and supporting document URLs or secure references in `providerApplications/{applicationId}`. Company details are persisted to `companies/{companyId}`. When an administrator approves the application, the app creates or updates `providers/{providerEmail}`, marks the provider approved, enables availability and links the provider to the company.
 
 Supporting document images upload to Firebase Storage under:
 
