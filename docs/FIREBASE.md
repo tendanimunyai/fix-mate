@@ -66,6 +66,8 @@ For release builds, register the release keystore SHA-1/SHA-256 in Firebase and 
 ```text
 profiles
 providers
+companies
+providerApplications
 services
 requests
 messages
@@ -96,7 +98,7 @@ system-admin
 
 If a signed-in Firebase user has no profile document, including Google users, the app creates a customer profile automatically.
 
-User-owned profile updates cannot change `role`, `email`, or `id`. Role elevation must be performed by an administrator/system-admin process.
+User-owned profile updates cannot change `role`, `email`, or `id`, except that a signed-in Firebase email can become `provider` when it matches an admin-approved provider record. Other role elevation must be performed by an administrator/system-admin process.
 
 Firestore and Storage rules both resolve roles from either custom claims or `profiles/{uid}.role`.
 
@@ -112,6 +114,18 @@ Seeded Firestore records:
 - `providers/provider@fixmate.app`
 - `providerStatuses/provider@fixmate.app`
 - `availability/provider@fixmate.app`
+
+## Provider onboarding
+
+Providers can submit a service application from the provider dashboard, or a system admin can capture the same application from the system admin console.
+
+The application stores the provider identity, company registration/contact details, selected service, service area, experience notes and supporting document URLs in `providerApplications/{applicationId}`. Company details are persisted to `companies/{companyId}`. When an administrator approves the application, the app creates or updates `providers/{providerEmail}`, marks the provider approved, enables availability and links the provider to the company.
+
+Supporting document images upload to Firebase Storage under:
+
+```text
+provider-documents/{providerEmail}/{timestamp}-{fileName}
+```
 
 ## Rule notes
 

@@ -2,7 +2,7 @@ import {FirebaseApp,getApp,getApps,initializeApp} from 'firebase/app';
 import {Auth,GoogleAuthProvider,User,onAuthStateChanged,UserCredential,getAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
 import {Firestore,collection,deleteDoc,doc,getDoc,getDocs,getFirestore,onSnapshot,query,serverTimestamp,setDoc,where} from 'firebase/firestore';
 import {FirebaseStorage,getDownloadURL,getStorage,ref,uploadBytes} from 'firebase/storage';
-import {AppAlert,Complaint,Message,NotificationToken,Provider,ProviderAccountStatus,ProviderAvailability,Request,Review,Role,Service,SystemSettings,UserProfile} from '../types';
+import {AppAlert,Company,Complaint,Message,NotificationToken,Provider,ProviderAccountStatus,ProviderAvailability,ProviderServiceApplication,Request,Review,Role,Service,SystemSettings,UserProfile} from '../types';
 
 type FirebaseConfig={
  apiKey:string;
@@ -59,7 +59,9 @@ export const firebaseCollections={
  providerStatuses:'providerStatuses',
  availability:'availability',
  systemSettings:'systemSettings',
- notificationTokens:'notificationTokens'
+ notificationTokens:'notificationTokens',
+ companies:'companies',
+ providerApplications:'providerApplications'
 } as const;
 
 export async function firebaseLogin(email:string,password:string):Promise<UserCredential>{
@@ -131,11 +133,13 @@ export const firebaseRepository={
  messages:{list:()=>list<Message>(firebaseCollections.messages),upsert:(item:Message)=>upsert(firebaseCollections.messages,item),remove:(id:string)=>remove(firebaseCollections.messages,id)},
  alerts:{list:()=>list<AppAlert>(firebaseCollections.alerts),subscribeForRole:subscribeAlertsForRole,upsert:(item:AppAlert)=>upsert(firebaseCollections.alerts,item),remove:(id:string)=>remove(firebaseCollections.alerts,id)},
  complaints:{list:()=>list<Complaint>(firebaseCollections.complaints),upsert:(item:Complaint)=>upsert(firebaseCollections.complaints,item),remove:(id:string)=>remove(firebaseCollections.complaints,id)},
- providers:{list:()=>list<Provider>(firebaseCollections.providers),upsert:(item:Provider)=>upsert(firebaseCollections.providers,item),remove:(id:string)=>remove(firebaseCollections.providers,id)},
+ providers:{list:()=>list<Provider>(firebaseCollections.providers),get:(id:string)=>getById<Provider>(firebaseCollections.providers,id),upsert:(item:Provider)=>upsert(firebaseCollections.providers,item),remove:(id:string)=>remove(firebaseCollections.providers,id)},
+ companies:{list:()=>list<Company>(firebaseCollections.companies),upsert:(item:Company)=>upsert(firebaseCollections.companies,item),remove:(id:string)=>remove(firebaseCollections.companies,id)},
+ providerApplications:{list:()=>list<ProviderServiceApplication>(firebaseCollections.providerApplications),upsert:(item:ProviderServiceApplication)=>upsert(firebaseCollections.providerApplications,item),remove:(id:string)=>remove(firebaseCollections.providerApplications,id)},
  services:{list:()=>list<Service>(firebaseCollections.services),upsert:(item:Service)=>upsert(firebaseCollections.services,item),remove:(id:string)=>remove(firebaseCollections.services,id)},
  reviews:{list:()=>list<Review>(firebaseCollections.reviews),upsert:(item:Review)=>upsert(firebaseCollections.reviews,item),remove:(id:string)=>remove(firebaseCollections.reviews,id)},
  profiles:{list:()=>list<UserProfile&{id:string}>(firebaseCollections.profiles),get:(id:string)=>getById<UserProfile&{id:string}>(firebaseCollections.profiles,id),upsert:(item:UserProfile&{id:string})=>upsert(firebaseCollections.profiles,item),remove:(id:string)=>remove(firebaseCollections.profiles,id)},
- providerStatuses:{list:()=>list<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses),upsert:(item:{id:string;status:ProviderAccountStatus})=>upsert(firebaseCollections.providerStatuses,item),remove:(id:string)=>remove(firebaseCollections.providerStatuses,id)},
+ providerStatuses:{list:()=>list<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses),get:(id:string)=>getById<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses,id),upsert:(item:{id:string;status:ProviderAccountStatus})=>upsert(firebaseCollections.providerStatuses,item),remove:(id:string)=>remove(firebaseCollections.providerStatuses,id)},
  availability:{list:()=>list<{id:string;available:boolean}>(firebaseCollections.availability),upsert:(item:{id:string;available:boolean})=>upsert(firebaseCollections.availability,item),remove:(id:string)=>remove(firebaseCollections.availability,id)},
  systemSettings:{get:(id:string)=>getById<SystemSettings>(firebaseCollections.systemSettings,id),upsert:(item:SystemSettings)=>upsert(firebaseCollections.systemSettings,item)},
  notificationTokens:{list:()=>list<NotificationToken>(firebaseCollections.notificationTokens),upsert:(item:NotificationToken)=>upsert(firebaseCollections.notificationTokens,item),disableForUser:disableNotificationTokensForUser}

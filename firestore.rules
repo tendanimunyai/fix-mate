@@ -26,6 +26,14 @@ service cloud.firestore {
       return role() == 'provider';
     }
 
+    function approvedProviderEmail(email) {
+      return signedIn()
+        && request.auth.token.email == email
+        && exists(/databases/$(database)/documents/providers/$(email))
+        && exists(/databases/$(database)/documents/providerStatuses/$(email))
+        && get(/databases/$(database)/documents/providerStatuses/$(email)).data.status == 'approved';
+    }
+
     match /requests/{requestId} {
       allow read: if signedIn();
       allow create: if signedIn();
@@ -66,6 +74,22 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /companies/{companyId} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /providerApplications/{applicationId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && !(request.resource.data.status in ['approved', 'rejected']));
+      allow delete: if isAdmin();
+    }
+
     match /services/{serviceId} {
       allow read: if true;
       allow create, update, delete: if isAdmin();
@@ -79,13 +103,28 @@ service cloud.firestore {
 
     match /profiles/{profileId} {
       allow read: if isAdmin() || (signedIn() && profileId == request.auth.uid);
-      allow create: if signedIn() && profileId == request.auth.uid && request.resource.data.role == 'customer';
+      allow create: if signedIn() && profileId == request.auth.uid && (
+        request.resource.data.role == 'customer'
+        || (
+          request.resource.data.role == 'provider'
+          && request.resource.data.email == request.auth.token.email
+          && approvedProviderEmail(request.resource.data.email)
+        )
+      );
       allow update: if isAdmin() || (signedIn() && profileId == request.auth.uid
-        && request.resource.data.role == resource.data.role
         && request.resource.data.email == resource.data.email
         && (
           request.resource.data.id == resource.data.id
           || (!resource.data.keys().hasAny(['id']) && request.resource.data.id == profileId)
+        )
+        && (
+          request.resource.data.role == resource.data.role
+          || (
+            resource.data.role == 'customer'
+            && request.resource.data.role == 'provider'
+            && request.resource.data.email == request.auth.token.email
+            && approvedProviderEmail(request.resource.data.email)
+          )
         ));
       allow delete: if isAdmin();
     }

@@ -22,9 +22,9 @@ This file tracks the main gaps before One-day local services should be treated a
 ## Storage and photos
 
 - Initialize Firebase Storage in the Console. CLI deployment is currently blocked until someone clicks `Get Started` in Firebase Storage.
-- Image picker uploads are wired to Firebase Storage for job photos and completion proof.
+- Image picker uploads are wired to Firebase Storage for job photos, completion proof and provider supporting document photos.
 - Store retention and cleanup rules for orphaned draft uploads.
-- Apply provider/customer ownership checks for upload paths.
+- Apply stricter provider/customer ownership checks for upload paths and support non-image business documents where required.
 
 ## Location and arrival
 
@@ -44,6 +44,7 @@ This file tracks the main gaps before One-day local services should be treated a
 
 - Move quote acceptance, payment capture, arrival verification and completion enforcement to trusted server code or Firebase Cloud Functions.
 - Add idempotent transaction handling for status changes.
+- Move provider application approval and role promotion to trusted backend/admin functions with audit records.
 
 ## Notifications
 

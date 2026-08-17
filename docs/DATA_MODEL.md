@@ -50,6 +50,54 @@ avatar
 verified
 bio
 coordinates?
+companyId?
+companyName?
+email?
+phone?
+serviceIds?
+documents?
+applicationId?
+```
+
+## `companies/{companyId}`
+
+```text
+id
+name
+registrationNumber
+contactEmail
+contactPhone
+address
+createdAt
+updatedAt
+```
+
+## `providerApplications/{applicationId}`
+
+```text
+id
+userId
+userEmail
+providerName
+providerEmail
+providerPhone
+companyId
+companyName
+companyRegistrationNumber
+companyContactEmail
+companyContactPhone
+companyAddress
+serviceId
+serviceName
+serviceArea
+yearsExperience
+notes
+documents
+status: draft | submitted | approved | rejected
+submittedAt
+reviewedAt
+reviewedBy
+rejectionReason
 ```
 
 ## `providerStatuses/{providerId}`

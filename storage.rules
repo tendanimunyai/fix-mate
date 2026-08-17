@@ -32,6 +32,11 @@ service firebase.storage {
       allow write: if signedIn() && role() == 'provider' && request.resource.size < 10 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
     }
 
+    match /provider-documents/{ownerId}/{fileName} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.resource.size < 10 * 1024 * 1024 && request.resource.contentType.matches('image/.*');
+    }
+
     match /admin/{fileName} {
       allow read, write: if isAdmin();
     }

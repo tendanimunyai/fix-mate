@@ -1,7 +1,16 @@
 export type Role = 'customer' | 'provider' | 'administrator' | 'system-admin';
 export type RequestStatus = 'Searching' | 'Pending' | 'Accepted' | 'Arrived' | 'In progress' | 'Completed' | 'Cancelled';
 export type Service = { id:string; name:string; icon:string; color:string; description:string };
-export type Provider = { id:string; name:string; trade:string; rating:number; reviews:number; distance:string; price:string; avatar:string; verified:boolean; bio:string; coordinates?:Coordinates };
+export type ProviderDocument = { id:string; name:string; url:string; type:'identity'|'qualification'|'insurance'|'business'|'other'; uploadedAt:string };
+export type Company = { id:string; name:string; registrationNumber:string; contactEmail:string; contactPhone:string; address:string; createdAt?:string; updatedAt?:string };
+export type ProviderApplicationStatus = 'draft'|'submitted'|'approved'|'rejected';
+export type ProviderServiceApplication = {
+ id:string; userId:string; userEmail:string; providerName:string; providerEmail:string; providerPhone:string;
+ companyId:string; companyName:string; companyRegistrationNumber:string; companyContactEmail:string; companyContactPhone:string; companyAddress:string;
+ serviceId:string; serviceName:string; serviceArea:string; yearsExperience:string; notes?:string;
+ documents:ProviderDocument[]; status:ProviderApplicationStatus; submittedAt:string; reviewedAt?:string; reviewedBy?:string; rejectionReason?:string;
+};
+export type Provider = { id:string; name:string; trade:string; rating:number; reviews:number; distance:string; price:string; avatar:string; verified:boolean; bio:string; coordinates?:Coordinates; companyId?:string; companyName?:string; email?:string; phone?:string; serviceIds?:string[]; documents?:ProviderDocument[]; applicationId?:string };
 export type Coordinates = { latitude:number; longitude:number };
 export type Request = {
  id:string; service:string; provider:string; providerId?:string; date:string; time:string; address:string;
