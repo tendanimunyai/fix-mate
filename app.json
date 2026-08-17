@@ -17,6 +17,12 @@
         }
       ],
       "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow One-day local services to attach job photos for quotes and completion proof."
+        }
+      ],
       "expo-web-browser"
     ],
     "android": {

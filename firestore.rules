@@ -90,5 +90,10 @@ service cloud.firestore {
       allow read: if signedIn();
       allow write: if isAdmin() || isProvider();
     }
+
+    match /systemSettings/{settingId} {
+      allow read: if signedIn();
+      allow write: if role() == 'system-admin';
+    }
   }
 }

@@ -22,15 +22,15 @@ This file tracks the main gaps before One-day local services should be treated a
 ## Storage and photos
 
 - Initialize Firebase Storage in the Console. CLI deployment is currently blocked until someone clicks `Get Started` in Firebase Storage.
-- Wire real image picker/camera uploads.
-- Store Firebase Storage download URLs instead of filename placeholders.
+- Image picker uploads are wired to Firebase Storage for job photos and completion proof.
+- Store retention and cleanup rules for orphaned draft uploads.
 - Apply provider/customer ownership checks for upload paths.
 
 ## Location and arrival
 
-- Replace simulated arrival checks with provider GPS updates.
+- Arrival checks use provider device GPS against booking service coordinates.
 - Calculate distance and ETA server-side.
-- Add geofence validation before `Arrived`.
+- Add server-side geofence validation before payment-critical `Arrived`.
 - Prevent client-only manipulation of arrival state.
 
 ## Payments

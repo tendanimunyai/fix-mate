@@ -59,16 +59,16 @@ Expected flow:
 Pending -> Accepted -> Arrived -> In progress -> Completed
 ```
 
-The app uses `verifyArrival()` to mark the provider as arrived. Current implementation simulates a verified distance of 65m and sets:
+The app uses `verifyArrival()` to mark the provider as arrived. It requests the provider device GPS location, compares it with the booking `serviceCoordinates`, and only marks the job arrived when the provider is within 100m.
 
 ```text
-arrivalStatus: arrived
-arrivalDistanceMeters: 65
-providerDistanceKm: 0.1
-estimatedArrivalMinutes: 0
+serviceCoordinates: customer booking coordinates, when available
+arrivalDistanceMeters: measured provider-to-service distance
+arrivalStatus: arrived | manual_review
+providerDistanceKm: latest measured distance
 ```
 
-Production should replace this with provider GPS updates and server-side geofence validation.
+Server-side geofence validation is still recommended before treating arrival as payment-critical.
 
 ## Tracking
 
@@ -119,4 +119,3 @@ cancellationFee: R50
 ```
 
 No cancellation is allowed after the job is in progress unless admin/system-admin policy is expanded.
-

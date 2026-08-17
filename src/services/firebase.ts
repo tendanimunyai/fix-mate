@@ -2,7 +2,7 @@ import {FirebaseApp,getApp,getApps,initializeApp} from 'firebase/app';
 import {Auth,GoogleAuthProvider,User,onAuthStateChanged,UserCredential,getAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
 import {Firestore,collection,deleteDoc,doc,getDoc,getDocs,getFirestore,serverTimestamp,setDoc} from 'firebase/firestore';
 import {FirebaseStorage,getDownloadURL,getStorage,ref,uploadBytes} from 'firebase/storage';
-import {AppAlert,Complaint,Message,Provider,ProviderAccountStatus,ProviderAvailability,Request,Review,Service,UserProfile} from '../types';
+import {AppAlert,Complaint,Message,Provider,ProviderAccountStatus,ProviderAvailability,Request,Review,Service,SystemSettings,UserProfile} from '../types';
 
 type FirebaseConfig={
  apiKey:string;
@@ -57,7 +57,8 @@ export const firebaseCollections={
  reviews:'reviews',
  profiles:'profiles',
  providerStatuses:'providerStatuses',
- availability:'availability'
+ availability:'availability',
+ systemSettings:'systemSettings'
 } as const;
 
 export async function firebaseLogin(email:string,password:string):Promise<UserCredential>{
@@ -123,7 +124,8 @@ export const firebaseRepository={
  reviews:{list:()=>list<Review>(firebaseCollections.reviews),upsert:(item:Review)=>upsert(firebaseCollections.reviews,item),remove:(id:string)=>remove(firebaseCollections.reviews,id)},
  profiles:{list:()=>list<UserProfile&{id:string}>(firebaseCollections.profiles),get:(id:string)=>getById<UserProfile&{id:string}>(firebaseCollections.profiles,id),upsert:(item:UserProfile&{id:string})=>upsert(firebaseCollections.profiles,item),remove:(id:string)=>remove(firebaseCollections.profiles,id)},
  providerStatuses:{list:()=>list<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses),upsert:(item:{id:string;status:ProviderAccountStatus})=>upsert(firebaseCollections.providerStatuses,item),remove:(id:string)=>remove(firebaseCollections.providerStatuses,id)},
- availability:{list:()=>list<{id:string;available:boolean}>(firebaseCollections.availability),upsert:(item:{id:string;available:boolean})=>upsert(firebaseCollections.availability,item),remove:(id:string)=>remove(firebaseCollections.availability,id)}
+ availability:{list:()=>list<{id:string;available:boolean}>(firebaseCollections.availability),upsert:(item:{id:string;available:boolean})=>upsert(firebaseCollections.availability,item),remove:(id:string)=>remove(firebaseCollections.availability,id)},
+ systemSettings:{get:(id:string)=>getById<SystemSettings>(firebaseCollections.systemSettings,id),upsert:(item:SystemSettings)=>upsert(firebaseCollections.systemSettings,item)}
 };
 
 export function statusRowsToRecord(rows:{id:string;status:ProviderAccountStatus}[]):Record<string,ProviderAccountStatus>{
