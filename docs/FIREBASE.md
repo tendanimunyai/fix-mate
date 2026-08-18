@@ -77,6 +77,7 @@ reviews
 complaints
 providerStatuses
 availability
+providerSlots
 ```
 
 ## Role source
@@ -120,6 +121,8 @@ Seeded Firestore records:
 Providers can submit a service application from the provider dashboard, or a system admin can capture the same application from the system admin console.
 
 The application stores the provider identity, company registration/contact details, selected service, service area, experience notes and supporting document URLs or secure references in `providerApplications/{applicationId}`. Company details are persisted to `companies/{companyId}`. When an administrator approves the application, the app creates or updates `providers/{providerEmail}`, marks the provider approved, enables availability and links the provider to the company.
+
+Approved providers can configure daily time slots in `providerSlots/{providerId_date_time}`. Active bookings consume configured capacity for that day; once all slots are reserved, the provider is removed from customer matching until the next day or until a booking is cancelled.
 
 Supporting document images upload to Firebase Storage under:
 

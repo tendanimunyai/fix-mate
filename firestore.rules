@@ -142,6 +142,12 @@ service cloud.firestore {
       allow write: if isAdmin() || isProvider();
     }
 
+    match /providerSlots/{slotId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin()
+        || (isProvider() && request.resource.data.providerId == request.auth.token.email);
+    }
+
     match /systemSettings/{settingId} {
       allow read: if signedIn();
       allow write: if role() == 'system-admin';

@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 import {Auth,GoogleAuthProvider,Persistence,User,onAuthStateChanged,UserCredential,getAuth,initializeAuth,sendPasswordResetEmail,signInWithCredential,signInWithEmailAndPassword,signInWithPopup,signOut} from 'firebase/auth';
 import {Firestore,collection,deleteDoc,doc,getDoc,getDocs,getFirestore,onSnapshot,query,serverTimestamp,setDoc,where} from 'firebase/firestore';
 import {FirebaseStorage,getDownloadURL,getStorage,ref,uploadBytes} from 'firebase/storage';
-import {AppAlert,Company,Complaint,Message,NotificationToken,Provider,ProviderAccountStatus,ProviderAvailability,ProviderServiceApplication,Request,Review,Role,Service,SystemSettings,UserProfile} from '../types';
+import {AppAlert,Company,Complaint,Message,NotificationToken,Provider,ProviderAccountStatus,ProviderAvailability,ProviderServiceApplication,ProviderSlot,ProviderSlots,Request,Review,Role,Service,SystemSettings,UserProfile} from '../types';
 
 type FirebaseConfig={
  apiKey:string;
@@ -81,6 +81,7 @@ export const firebaseCollections={
  notificationTokens:'notificationTokens',
  companies:'companies',
  providerApplications:'providerApplications'
+ ,providerSlots:'providerSlots'
 } as const;
 
 export async function firebaseLogin(email:string,password:string):Promise<UserCredential>{
@@ -152,7 +153,7 @@ async function disableNotificationTokensForUser(userId:string){
 }
 
 export const firebaseRepository={
- requests:{list:()=>list<Request>(firebaseCollections.requests),upsert:(item:Request)=>upsert(firebaseCollections.requests,item),remove:(id:string)=>remove(firebaseCollections.requests,id)},
+ requests:{list:()=>list<Request>(firebaseCollections.requests),subscribe:(callback:(items:Request[])=>void)=>subscribeCollection<Request>(firebaseCollections.requests,callback),upsert:(item:Request)=>upsert(firebaseCollections.requests,item),remove:(id:string)=>remove(firebaseCollections.requests,id)},
  messages:{list:()=>list<Message>(firebaseCollections.messages),upsert:(item:Message)=>upsert(firebaseCollections.messages,item),remove:(id:string)=>remove(firebaseCollections.messages,id)},
  alerts:{list:()=>list<AppAlert>(firebaseCollections.alerts),subscribeForRole:subscribeAlertsForRole,upsert:(item:AppAlert)=>upsert(firebaseCollections.alerts,item),remove:(id:string)=>remove(firebaseCollections.alerts,id)},
  complaints:{list:()=>list<Complaint>(firebaseCollections.complaints),upsert:(item:Complaint)=>upsert(firebaseCollections.complaints,item),remove:(id:string)=>remove(firebaseCollections.complaints,id)},
@@ -164,6 +165,7 @@ export const firebaseRepository={
  profiles:{list:()=>list<UserProfile&{id:string}>(firebaseCollections.profiles),get:(id:string)=>getById<UserProfile&{id:string}>(firebaseCollections.profiles,id),upsert:(item:UserProfile&{id:string})=>upsert(firebaseCollections.profiles,item),remove:(id:string)=>remove(firebaseCollections.profiles,id)},
  providerStatuses:{list:()=>list<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses),subscribe:(callback:(items:{id:string;status:ProviderAccountStatus}[])=>void)=>subscribeCollection<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses,callback),get:(id:string)=>getById<{id:string;status:ProviderAccountStatus}>(firebaseCollections.providerStatuses,id),upsert:(item:{id:string;status:ProviderAccountStatus})=>upsert(firebaseCollections.providerStatuses,item),remove:(id:string)=>remove(firebaseCollections.providerStatuses,id)},
  availability:{list:()=>list<{id:string;available:boolean}>(firebaseCollections.availability),subscribe:(callback:(items:{id:string;available:boolean}[])=>void)=>subscribeCollection<{id:string;available:boolean}>(firebaseCollections.availability,callback),upsert:(item:{id:string;available:boolean})=>upsert(firebaseCollections.availability,item),remove:(id:string)=>remove(firebaseCollections.availability,id)},
+ providerSlots:{list:()=>list<ProviderSlot>(firebaseCollections.providerSlots),subscribe:(callback:(items:ProviderSlot[])=>void)=>subscribeCollection<ProviderSlot>(firebaseCollections.providerSlots,callback),upsert:(item:ProviderSlot)=>upsert(firebaseCollections.providerSlots,item),remove:(id:string)=>remove(firebaseCollections.providerSlots,id)},
  systemSettings:{get:(id:string)=>getById<SystemSettings>(firebaseCollections.systemSettings,id),upsert:(item:SystemSettings)=>upsert(firebaseCollections.systemSettings,item)},
  notificationTokens:{list:()=>list<NotificationToken>(firebaseCollections.notificationTokens),upsert:(item:NotificationToken)=>upsert(firebaseCollections.notificationTokens,item),disableForUser:disableNotificationTokensForUser}
 };
@@ -174,6 +176,10 @@ export function statusRowsToRecord(rows:{id:string;status:ProviderAccountStatus}
 
 export function availabilityRowsToRecord(rows:{id:string;available:boolean}[]):ProviderAvailability{
  return rows.reduce<ProviderAvailability>((acc,row)=>({...acc,[row.id]:row.available}),{});
+}
+
+export function providerSlotRowsToRecord(rows:ProviderSlot[]):ProviderSlots{
+ return rows.reduce<ProviderSlots>((acc,row)=>({...acc,[row.providerId]:[...(acc[row.providerId]||[]),row]}),{});
 }
 
 export async function uploadJobPhoto(path:string,blob:Blob):Promise<string>{
